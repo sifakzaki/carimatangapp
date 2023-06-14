@@ -10,8 +10,8 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 app = FastAPI()  # create a new FastAPI app instance
 
-# port = int(os.getenv("PORT"))
-port = 8080
+port = os.environ.get("PORT", 8080)
+#port = 8080
 
 model = tf.keras.models.load_model('model2_wisnu.h5')
 
