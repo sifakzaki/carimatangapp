@@ -30,10 +30,6 @@ def predict(file):
     
     return label[result]
 
-@app.get("/")
-def hello_world():
-    return ("hello world")
-
 @app.post("/predict")
 def classify(input: UploadFile = File(...)):
     print(input.filename)
