@@ -1,6 +1,5 @@
 import uvicorn
 from fastapi import FastAPI, UploadFile, File
-from fastapi.responses import ORJSONResponse
 import tensorflow as tf
 import numpy as np
 import os
@@ -11,7 +10,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 app = FastAPI()  # create a new FastAPI app instance
 
-#port = os.environ.get("PORT", 8080)
+# port = int(os.getenv("PORT"))
 port = 8080
 
 model = tf.keras.models.load_model('model2_wisnu.h5')
@@ -34,9 +33,9 @@ def predict(file):
 @app.get("/")
 def hello_world():
     return ("hello world")
-    
+
 @app.post("/predict")
-async def classify(input: UploadFile = File(...)):
+def classify(input: UploadFile = File(...)):
     print(input.filename)
     print(type(input.filename))
     savefile = input.filename
@@ -44,10 +43,7 @@ async def classify(input: UploadFile = File(...)):
         shutil.copyfileobj(input.file, buffer)
     result = predict(savefile)
     os.remove(savefile)
-
-    response = { "result": result }
-
-    return ORJSONResponse(response)
+    return {result}
     
 if __name__ == '__main__':
     uvicorn.run(app, host="0.0.0.0", port=port, timeout_keep_alive=1200)
