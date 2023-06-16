@@ -5,6 +5,7 @@ import numpy as np
 import os
 from tensorflow.keras.preprocessing import image
 import shutil
+from fastapi.responses import JSONResponse
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
@@ -28,7 +29,9 @@ def predict(file):
     result = np.argmax(classes[0])
     label = ['freshapples', 'freshbanana', 'freshoranges','rottenapples','rottenbanana','rottenoranges']
     
-    return label[result]
+    data = { "hasil" :  label[result] }
+
+    return JSONResponse(content=data)
 
 @app.get("/")
 def hello_world():
