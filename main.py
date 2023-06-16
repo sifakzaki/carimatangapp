@@ -28,7 +28,7 @@ def predict(file):
     result = np.argmax(classes[0])
     label = ['freshapples', 'freshbanana', 'freshoranges','rottenapples','rottenbanana','rottenoranges']
     
-    return hasil = label[result]
+    return label[result]
 
 @app.get("/")
 def hello_world():
